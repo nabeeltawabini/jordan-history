@@ -2,7 +2,11 @@
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1e3a5f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 <title>منصة دراسة تاريخ الأردن — تفاعلية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -901,6 +905,292 @@ input { font-family: inherit; }
   .print-footer { display: block !important; text-align: center; font-size: 9pt; color: #666; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ccc; }
 }
 .print-footer { display: none; }
+
+/* ============================================================
+   📱 MOBILE OVERHAUL — refined responsive design
+   ============================================================ */
+
+/* Disable iOS tap highlight, smoother scroll */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+html { -webkit-text-size-adjust: 100%; }
+body {
+  overscroll-behavior-y: contain;
+  touch-action: manipulation;
+}
+
+/* Touch devices: always show compare buttons (no hover available) */
+@media (hover: none), (pointer: coarse) {
+  .compare-btn { opacity: .85 !important; }
+  .compare-btn.active { opacity: 1 !important; }
+  /* Slightly larger touch targets */
+  .tree-leaf { padding-block: 11px; }
+  .filter-pill { padding: 8px 14px; min-height: 36px; }
+  .view-btn { min-height: 36px; padding: 8px 12px; }
+  .icon-btn { min-width: 40px; min-height: 40px; }
+}
+
+/* === FIX: show view-toggle on phones (was incorrectly hidden) === */
+@media (max-width: 560px) {
+  .view-toggle { display: flex !important; }
+}
+
+/* ============ TABLET (≤ 900px) — refinements ============ */
+@media (max-width: 900px) {
+  :root { --sidebar-w: 320px; }
+  .sidebar { width: min(320px, 88vw); }
+  .main { padding: 14px 14px 100px; }
+  .lesson-title { font-size: 22px; }
+  .lesson-stats { gap: 12px; font-size: 12px; flex-wrap: wrap; }
+  .welcome { margin: 20px auto; padding: 24px 16px; }
+  .welcome-icon { font-size: 56px; }
+  .welcome-title { font-size: 24px; }
+  .welcome-text { font-size: 14.5px; }
+  .welcome-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .mega-title { font-size: 22px; }
+  .mega-subtitle { font-size: 13px; }
+  /* Header is okay but tighter */
+  .header { padding: 0 12px; gap: 8px; }
+  .search-trigger { min-width: 0; padding: 8px 10px; gap: 6px; }
+  .search-trigger-label, .search-trigger-kbd { display: none; }
+}
+
+/* ============ PHONE (≤ 640px) ============ */
+@media (max-width: 640px) {
+  :root { --header-h: 56px; }
+  body { font-size: 15px; }
+  .header { gap: 6px; padding: 0 10px; padding-inline-start: max(10px, env(safe-area-inset-left)); padding-inline-end: max(10px, env(safe-area-inset-right)); }
+  .menu-btn { width: 40px; height: 40px; }
+  .icon-btn { width: 40px; height: 40px; }
+  .header-actions { gap: 2px; }
+  .breadcrumb {
+    font-size: 12.5px;
+    gap: 6px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .breadcrumb::-webkit-scrollbar { display: none; }
+  /* Hide non-current breadcrumb on very small phones */
+  .bc-item:not(.current):not(:nth-last-child(-n+3)) { display: none; }
+  .view-toggle { padding: 2px; gap: 1px; }
+  .view-btn { padding: 6px 8px; font-size: 12px; font-weight: 600; }
+  .main { padding: 12px 12px 110px; padding-inline-start: max(12px, env(safe-area-inset-left)); padding-inline-end: max(12px, env(safe-area-inset-right)); }
+
+  /* Brand: compact */
+  .brand-subtitle { display: none; }
+  .sidebar-head { padding: 14px 14px 12px; }
+
+  /* Lesson header tightening */
+  .lesson-head { margin-bottom: 18px; padding-bottom: 14px; }
+  .lesson-eyebrow { font-size: 11px; }
+  .lesson-title { font-size: 20px; line-height: 1.3; }
+  .lesson-stats { font-size: 12px; gap: 10px; margin-top: 10px; }
+  .section-title { font-size: 17px; }
+  .section-head { margin: 24px 0 12px; }
+
+  /* === Timeline: convert to VERTICAL list on phones === */
+  .timeline-wrap { padding: 8px 0 12px; }
+  .timeline-scroll {
+    overflow-x: hidden !important;
+    overflow-y: visible;
+    padding: 8px 12px;
+  }
+  .timeline-track {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 0 0 30px;
+    min-width: 0;
+    position: relative;
+  }
+  .timeline-line {
+    inset-inline-start: 12px !important;
+    inset-inline-end: auto !important;
+    top: 8px !important;
+    bottom: 8px !important;
+    width: 3px !important;
+    height: auto !important;
+    background: linear-gradient(to bottom, var(--accent-2), var(--accent), var(--accent-2)) !important;
+  }
+  .tl-event {
+    min-width: 0 !important;
+    max-width: none !important;
+    width: 100%;
+    position: relative;
+  }
+  .tl-event:nth-child(odd) .tl-card,
+  .tl-event:nth-child(even) .tl-card { margin-top: 0 !important; }
+  .tl-dot {
+    position: absolute !important;
+    top: 18px !important;
+    inset-inline-start: -23px !important;
+    transform: none !important;
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 !important;
+  }
+  .tl-event:hover .tl-dot { transform: scale(1.2) !important; }
+  .tl-card { padding: 12px 14px; }
+  .tl-event-title { font-size: 14px; }
+  .tl-event-preview { font-size: 12.5px; -webkit-line-clamp: 4; }
+
+  /* Cards grid: 1 column on small phones */
+  .cards-grid { grid-template-columns: 1fr; gap: 10px; }
+  .card { padding: 14px; }
+  .card-title { font-size: 15px; }
+  .card-summary { font-size: 13px; -webkit-line-clamp: 4; }
+
+  /* Cards filter: horizontal scroll instead of wrap */
+  .cards-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    margin-inline: -12px;
+    padding-inline: 12px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cards-filter::-webkit-scrollbar { display: none; }
+  .filter-pill { flex-shrink: 0; }
+
+  /* Compare button: always visible on phones */
+  .compare-btn { opacity: 1 !important; width: 30px; height: 30px; top: 6px; inset-inline-end: 6px; }
+
+  /* === Modal: full-screen on phones === */
+  .modal-backdrop { padding: 0; align-items: stretch; }
+  .modal {
+    max-height: 100vh;
+    max-height: 100dvh;
+    height: 100%;
+    border-radius: 0;
+    max-width: 100%;
+  }
+  .modal-head { padding: 14px 16px 12px; padding-top: max(14px, env(safe-area-inset-top)); }
+  .modal-icon { font-size: 28px; }
+  .modal-title { font-size: 18px; }
+  .modal-close { width: 38px; height: 38px; font-size: 24px; }
+  .modal-body { padding: 18px 16px 24px; padding-bottom: max(24px, env(safe-area-inset-bottom)); font-size: 14.5px; line-height: 1.85; }
+  .xref-chip { padding: 7px 12px; font-size: 12px; }
+
+  /* === Search overlay: full-screen on phones === */
+  .search-overlay { padding: 0; align-items: stretch; }
+  .search-panel {
+    max-height: 100vh;
+    max-height: 100dvh;
+    height: 100%;
+    border-radius: 0;
+    max-width: 100%;
+  }
+  .search-panel-head { padding: 14px 14px; padding-top: max(14px, env(safe-area-inset-top)); }
+  .search-panel-input { font-size: 16px; /* prevents iOS zoom */ }
+  .search-panel-kbd { display: none; }
+  .search-results { padding: 4px 8px 20px; padding-bottom: max(20px, env(safe-area-inset-bottom)); }
+  .search-result-title { font-size: 14px; }
+  .search-result-snippet { font-size: 12.5px; }
+
+  /* === Compare tray: respect safe area, smaller === */
+  .compare-tray {
+    padding: 10px 14px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .compare-tray-label { font-size: 12px; justify-content: space-between; }
+  .compare-tray-items { width: 100%; }
+  .compare-item { max-width: 100%; flex: 1 1 auto; }
+  .compare-item-name { max-width: none; }
+  .compare-go { width: 100%; padding: 11px; min-height: 44px; }
+
+  /* === Compare modal: full-screen on phones === */
+  .compare-modal-backdrop { padding: 0; align-items: stretch; }
+  .compare-modal { max-height: 100vh; max-height: 100dvh; height: 100%; border-radius: 0; max-width: 100%; }
+  .compare-cols { grid-template-columns: 1fr; overflow-y: auto; }
+  .compare-col { padding: 16px; border-inline-end: none; border-bottom: 8px solid var(--border); }
+  .compare-col:last-child { border-bottom: none; }
+  .compare-col-title { font-size: 16px; }
+  .compare-col-body { font-size: 14px; }
+
+  /* === Mega timeline: tighter on mobile === */
+  .mega-head { margin-bottom: 14px; padding-bottom: 12px; }
+  .mega-title { font-size: 20px; gap: 6px; }
+  .mega-counter { font-size: 11px; padding: 2px 8px; }
+  .mega-subtitle { font-size: 12.5px; }
+  .mega-filters { padding: 10px; gap: 10px; }
+  .mega-filter-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .mega-filter-row::-webkit-scrollbar { display: none; }
+  .mega-filter-row > .filter-pill { flex-shrink: 0; }
+  .mega-filter-label { min-width: 50px; font-size: 11px; }
+  .mega-events { padding-inline-start: 26px; }
+  .mega-events::before { inset-inline-start: 8px; width: 2px; }
+  .mega-era-header {
+    margin-inline-start: -26px;
+    padding-inline-start: 26px;
+    font-size: 13.5px;
+    padding: 10px 0 8px;
+  }
+  .mega-event::before {
+    inset-inline-start: -22px;
+    width: 12px;
+    height: 12px;
+    top: 16px;
+  }
+  .mega-event-card { padding: 10px 12px; }
+  .mega-event-title { font-size: 13.5px; }
+  .mega-event-date { font-size: 12px; }
+  .mega-event-source { font-size: 11px; }
+
+  /* === Sidebar: full-width drawer on phones === */
+  .sidebar { width: min(340px, 92vw); }
+  .nav-tree { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+
+  /* === Welcome on phones === */
+  .welcome { margin: 16px auto; padding: 16px 8px; }
+  .welcome-icon { font-size: 48px; margin-bottom: 14px; }
+  .welcome-title { font-size: 21px; }
+  .welcome-text { font-size: 13.5px; line-height: 1.7; }
+  .stat-box { padding: 14px 8px; }
+  .stat-num { font-size: 22px; }
+  .stat-label { font-size: 11px; }
+}
+
+/* ============ SMALL PHONE (≤ 380px) — final tightening ============ */
+@media (max-width: 380px) {
+  .brand-icon { width: 32px; height: 32px; font-size: 15px; }
+  .brand-title { font-size: 14px; }
+  .lesson-title { font-size: 18px; }
+  .section-title { font-size: 15.5px; }
+  .view-btn { padding: 6px 6px; font-size: 11.5px; }
+  .header { gap: 4px; padding: 0 8px; }
+  .icon-btn, .menu-btn { width: 36px; height: 36px; }
+  .icon-btn svg, .menu-btn svg { width: 18px; height: 18px; }
+  .welcome-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  /* Hide breadcrumb book name on very tiny phones */
+  .bc-item:not(.current):not(:last-of-type) { display: none; }
+}
+
+/* ============ LANDSCAPE PHONE (short height) ============ */
+@media (max-height: 480px) and (orientation: landscape) {
+  .modal, .search-panel, .compare-modal { max-height: 95vh; }
+  .lesson-head { margin-bottom: 12px; padding-bottom: 8px; }
+  .lesson-title { font-size: 18px; }
+  .section-head { margin: 16px 0 8px; }
+}
+
+/* Improve focus rings for keyboard users */
+button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
 </style>
 </head>
 <body>
