@@ -1215,6 +1215,539 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--accent-2);
   outline-offset: 2px;
 }
+
+/* ============================================================
+   🎨 NEW TIMELINE DESIGN (vertical, clean, like mega-timeline)
+   ============================================================ */
+.timeline-v {
+  max-width: 760px;
+  margin: 0 auto;
+  position: relative;
+  padding-inline-start: 36px;
+}
+.timeline-v::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 13px;
+  top: 4px; bottom: 4px;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--accent-2), var(--accent), var(--accent-2));
+  border-radius: 2px;
+}
+.tv-event {
+  position: relative;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: transform .15s;
+}
+.tv-event::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: -29px;
+  top: 18px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--era-color, var(--accent));
+  border: 3px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--era-color, var(--accent));
+  transition: transform .15s;
+  z-index: 1;
+}
+.tv-event:hover::before { transform: scale(1.25); }
+.tv-event-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--era-color, var(--accent));
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  box-shadow: var(--shadow);
+  transition: transform .15s, box-shadow .15s;
+}
+.tv-event:hover .tv-event-card { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.tv-event-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.tv-date {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--era-color, var(--accent));
+  background: var(--bg-soft);
+  padding: 3px 10px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.tv-type-badge {
+  font-size: 11px;
+  background: var(--bg-soft);
+  color: var(--ink-mute);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.tv-event-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.tv-event-preview {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.tv-event-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.tv-read-more {
+  font-size: 12.5px;
+  color: var(--accent);
+  font-weight: 700;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background .12s;
+}
+.tv-read-more:hover { background: var(--bg-soft); }
+.tv-gap {
+  position: relative;
+  margin: 6px 0 18px;
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  font-weight: 600;
+  padding: 4px 0;
+}
+.tv-gap-label {
+  background: var(--bg);
+  padding: 2px 10px;
+  position: relative;
+  z-index: 1;
+}
+.tv-gap::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: -22px;
+  top: 12px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px dashed var(--ink-mute);
+  z-index: 0;
+}
+
+/* Mobile timeline-v tightening */
+@media (max-width: 640px) {
+  .timeline-v { padding-inline-start: 26px; max-width: none; }
+  .timeline-v::before { inset-inline-start: 8px; width: 2px; }
+  .tv-event::before { inset-inline-start: -22px; width: 12px; height: 12px; top: 16px; }
+  .tv-event-card { padding: 12px 14px; }
+  .tv-event-title { font-size: 14.5px; }
+  .tv-event-preview { font-size: 12.5px; -webkit-line-clamp: 4; }
+  .tv-date { font-size: 12px; padding: 2px 8px; }
+  .tv-gap::after { inset-inline-start: -19px; }
+}
+
+/* ============================================================
+   🌳 DYNASTY FAMILY TREES
+   ============================================================ */
+.family-view { max-width: 1200px; margin: 0 auto; }
+.family-head { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid var(--border); }
+.family-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.family-subtitle { font-size: 14px; color: var(--ink-soft); }
+.family-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0;
+}
+.family-selector .filter-pill { font-size: 13px; }
+.family-tree-wrap {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 16px;
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.family-tree-wrap::-webkit-scrollbar { height: 8px; }
+.family-tree-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.family-tree-svg {
+  display: block;
+  margin: 0 auto;
+}
+.tree-node-card {
+  cursor: pointer;
+}
+.tree-node-card rect {
+  fill: var(--bg-elev);
+  stroke: var(--node-color, var(--accent));
+  stroke-width: 2;
+  rx: 8;
+  transition: stroke-width .12s ease;
+}
+.tree-node-card:hover rect { stroke-width: 4; }
+@media (hover: none) {
+  .tree-node-card:hover rect { stroke-width: 2; }
+}
+.tree-node-card .node-name {
+  fill: var(--ink);
+  font-weight: 800;
+  font-size: 14px;
+  font-family: 'Tajawal', sans-serif;
+}
+.tree-node-card .node-dates {
+  fill: var(--ink-mute);
+  font-size: 11px;
+  font-family: 'Tajawal', sans-serif;
+}
+.tree-node-card .node-badge {
+  fill: var(--node-color, var(--accent));
+  font-weight: 700;
+  font-size: 10px;
+}
+.tree-node-card .node-bg-bar {
+  fill: var(--node-color, var(--accent));
+  opacity: .12;
+}
+.tree-line {
+  stroke: var(--border);
+  stroke-width: 2;
+  fill: none;
+}
+
+/* ============================================================
+   ⭕ CIRCULAR ERA TIMELINE
+   ============================================================ */
+.era-view { max-width: 900px; margin: 0 auto; }
+.era-head { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid var(--border); }
+.era-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.era-subtitle { font-size: 14px; color: var(--ink-soft); }
+.era-circle-wrap {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: center;
+}
+.era-circle-svg {
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  display: block;
+}
+.era-slice {
+  cursor: pointer;
+  transition: opacity .15s, transform .15s;
+  transform-origin: center;
+}
+.era-slice:hover { opacity: .85; }
+.era-slice path { stroke: var(--bg-elev); stroke-width: 2; }
+.era-slice text { font-family: 'Tajawal', sans-serif; pointer-events: none; }
+.era-slice .era-name { font-weight: 800; font-size: 13px; fill: white; }
+.era-slice .era-dates { font-size: 10.5px; fill: rgba(255,255,255,.85); }
+.era-slice .era-count { font-size: 10px; fill: rgba(255,255,255,.75); font-weight: 700; }
+.era-center {
+  fill: var(--bg-elev);
+  stroke: var(--border);
+  stroke-width: 2;
+}
+.era-center-text {
+  font-family: 'Tajawal', sans-serif;
+  fill: var(--ink);
+  font-weight: 900;
+  font-size: 14px;
+  text-anchor: middle;
+}
+.era-center-sub {
+  font-family: 'Tajawal', sans-serif;
+  fill: var(--ink-mute);
+  font-size: 11px;
+  text-anchor: middle;
+}
+.era-legend {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+.era-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background .15s;
+}
+.era-legend-item:hover { background: var(--border); }
+.era-legend-color {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.era-legend-text { flex: 1; color: var(--ink); font-weight: 600; }
+.era-legend-count { font-size: 10.5px; color: var(--ink-mute); font-weight: 700; }
+
+@media (max-width: 640px) {
+  .era-circle-wrap { padding: 16px 8px; }
+  .era-slice .era-name { font-size: 10px; }
+  .era-slice .era-dates, .era-slice .era-count { font-size: 8.5px; }
+}
+
+/* ============================================================
+   📝 QUIZ MODAL
+   ============================================================ */
+.quiz-btn-large {
+  background: linear-gradient(135deg, var(--accent), var(--accent-3));
+  color: white;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: var(--shadow);
+  transition: transform .15s, box-shadow .15s;
+}
+.quiz-btn-large:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.quiz-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,20,25,.7);
+  z-index: 150;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.quiz-modal-backdrop.open { display: flex; animation: fadeIn .2s ease; }
+.quiz-modal {
+  background: var(--bg-elev);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  max-height: 90dvh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp .25s ease;
+}
+.quiz-head {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.quiz-title { font-size: 17px; font-weight: 800; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.quiz-progress-row {
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.quiz-progress-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-mute);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.quiz-progress-bar {
+  height: 6px;
+  background: var(--bg-soft);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(to left, var(--accent-2), var(--accent));
+  border-radius: 3px;
+  transition: width .3s ease;
+}
+.quiz-body {
+  padding: 22px;
+  overflow-y: auto;
+  flex: 1;
+}
+.quiz-question {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+.quiz-question-hint {
+  font-size: 12px;
+  color: var(--ink-mute);
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.quiz-option {
+  background: var(--bg-elev);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--ink);
+  text-align: start;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: inherit;
+  width: 100%;
+}
+.quiz-option:hover:not(:disabled) {
+  border-color: var(--accent-2);
+  background: var(--bg-soft);
+}
+.quiz-option-marker {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--ink-mute);
+  flex-shrink: 0;
+  transition: all .15s;
+}
+.quiz-option.correct {
+  border-color: #16a34a;
+  background: rgba(22,163,74,.08);
+}
+.quiz-option.correct .quiz-option-marker {
+  background: #16a34a; color: white;
+}
+.quiz-option.wrong {
+  border-color: #dc2626;
+  background: rgba(220,38,38,.08);
+}
+.quiz-option.wrong .quiz-option-marker {
+  background: #dc2626; color: white;
+}
+.quiz-option:disabled { cursor: default; }
+.quiz-feedback {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  line-height: 1.7;
+  display: none;
+}
+.quiz-feedback.show { display: block; animation: slideUp .2s ease; }
+.quiz-feedback.correct { background: rgba(22,163,74,.1); color: #15803d; border-inline-start: 4px solid #16a34a; }
+.quiz-feedback.wrong { background: rgba(220,38,38,.08); color: #b91c1c; border-inline-start: 4px solid #dc2626; }
+[data-theme="dark"] .quiz-feedback.correct { color: #4ade80; }
+[data-theme="dark"] .quiz-feedback.wrong { color: #f87171; }
+.quiz-feedback-title { font-weight: 800; margin-bottom: 4px; }
+.quiz-foot {
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.quiz-next {
+  background: var(--accent);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s;
+}
+.quiz-next:hover { background: var(--accent-3); }
+.quiz-next:disabled { background: var(--ink-mute); cursor: not-allowed; }
+.quiz-skip {
+  color: var(--ink-mute);
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.quiz-skip:hover { color: var(--ink); }
+
+/* Quiz result screen */
+.quiz-result { text-align: center; padding: 20px 10px; }
+.quiz-result-emoji { font-size: 60px; margin-bottom: 12px; }
+.quiz-result-score {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.quiz-result-label { font-size: 16px; color: var(--ink-soft); font-weight: 600; margin-bottom: 20px; }
+.quiz-result-message { font-size: 14px; color: var(--ink); line-height: 1.7; margin-bottom: 20px; max-width: 460px; margin-inline: auto; }
+.quiz-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.quiz-actions button { padding: 10px 18px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 700; cursor: pointer; }
+.quiz-retry { background: var(--accent); color: white; }
+.quiz-retry:hover { background: var(--accent-3); }
+.quiz-close-result { background: var(--bg-soft); color: var(--ink); }
+.quiz-close-result:hover { background: var(--border); }
+
+@media (max-width: 640px) {
+  .quiz-modal-backdrop { padding: 0; align-items: stretch; }
+  .quiz-modal { max-height: 100dvh; height: 100%; border-radius: 0; }
+  .quiz-question { font-size: 15.5px; }
+  .quiz-option { padding: 12px 14px; font-size: 13.5px; }
+  .quiz-result-emoji { font-size: 50px; }
+  .quiz-result-score { font-size: 30px; }
+}
 </style>
 </head>
 <body>
@@ -1235,10 +1768,18 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
     </div>
     <nav class="nav-tree" id="navTree"></nav>
     <div class="sidebar-mega">
-      <button class="mega-btn" id="megaBtn">
+      <button class="mega-btn" id="megaBtn" style="margin-bottom:8px">
         <span style="font-size:16px">🌐</span>
         <span>الخط الزمني الشامل</span>
         <span style="margin-inline-start:auto;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:10px;font-size:11px">351</span>
+      </button>
+      <button class="mega-btn" id="eraBtn" style="margin-bottom:8px;background:linear-gradient(135deg,#b8860b,#8b6b3f)">
+        <span style="font-size:16px">⭕</span>
+        <span>حقب التاريخ</span>
+      </button>
+      <button class="mega-btn" id="familyBtn" style="background:linear-gradient(135deg,#2d6a4f,#1b5e3f)">
+        <span style="font-size:16px">🌳</span>
+        <span>الأسر الحاكمة</span>
       </button>
     </div>
   </aside>
@@ -1306,6 +1847,28 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
   </div>
 </div>
 
+<!-- Quiz Modal -->
+<div class="quiz-modal-backdrop" id="quizModal">
+  <div class="quiz-modal" role="dialog">
+    <div class="quiz-head">
+      <div class="quiz-title">📝 اختبر نفسك</div>
+      <button class="modal-close" id="quizModalClose" aria-label="إغلاق">×</button>
+    </div>
+    <div class="quiz-progress-row">
+      <div class="quiz-progress-text">
+        <span id="quizProgressLabel">السؤال 1 من 5</span>
+        <span id="quizScoreLabel">النتيجة: 0</span>
+      </div>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill" style="width:20%"></div></div>
+    </div>
+    <div class="quiz-body" id="quizBody"></div>
+    <div class="quiz-foot" id="quizFoot" style="display:none">
+      <span class="quiz-skip" id="quizSkip">تخطّى ←</span>
+      <button class="quiz-next" id="quizNext" disabled>التالي ←</button>
+    </div>
+  </div>
+</div>
+
 <!-- Print footer (only visible in print) -->
 <div class="print-footer">تاريخ الأردن — منصة الدراسة التفاعلية</div>
 
@@ -1338,6 +1901,11 @@ const state = {
   megaFilters: { type: 'all', book: 'all' },
   compareTray: JSON.parse(sessionStorage.getItem('compareTray') || '[]'),
   searchFocusIdx: -1,
+  eraView: false,
+  familyView: false,
+  familySelected: 'hashemite',
+  quiz: null,  // { questions: [], currentIdx: 0, score: 0, answered: false, selectedIdx: -1 }
+  expandedNodes: new Set(),  // book/unit IDs that user has manually expanded
 };
 let SEARCH_INDEX = [];
 let XREF_INDEX = new Map();
@@ -1442,6 +2010,16 @@ function renderSidebar() {
   tree.innerHTML = '';
   const q = state.searchQuery.trim().toLowerCase();
 
+  // If a lesson is currently selected, make sure its parent book + unit are auto-expanded
+  let autoExpand = new Set();
+  if (state.currentLessonId) {
+    const found = findLesson(state.currentLessonId);
+    if (found) {
+      autoExpand.add(found.book.id);
+      autoExpand.add(found.unit.id);
+    }
+  }
+
   for (const book of APP_DATA.books) {
     const lessonCount = book.units.reduce((a, u) => a + u.lessons.length, 0);
 
@@ -1455,23 +2033,43 @@ function renderSidebar() {
 
     if (q && visibleUnits.length === 0) continue;
 
-    const bookEl = el('details', { class: 'tree-book', open: '' });
+    // Determine if this book should be open:
+    // - If user expanded it manually (in expandedNodes)
+    // - If searching (open all matching)
+    // - If currently selected lesson belongs to this book
+    const bookOpen = state.expandedNodes.has(book.id) || !!q || autoExpand.has(book.id);
+
+    const bookAttrs = { class: 'tree-book' };
+    if (bookOpen) bookAttrs.open = '';
+    const bookEl = el('details', bookAttrs);
     const bookToggle = el('summary', { class: 'tree-toggle book' },
       el('span', { class: 'chev', html: '◀' }),
       el('span', {}, '📚 ' + book.title),
       el('span', { class: 'count-badge' }, String(lessonCount))
     );
     bookEl.append(bookToggle);
+    // Track manual toggles in state (only when not searching, to avoid polluting state)
+    bookEl.addEventListener('toggle', () => {
+      if (bookEl.open) state.expandedNodes.add(book.id);
+      else state.expandedNodes.delete(book.id);
+    });
     const bookChildren = el('div', { class: 'tree-children' });
 
     for (const { unit, matchedLessons } of visibleUnits) {
-      const unitEl = el('details', { class: 'tree-unit', open: '' });
+      const unitOpen = state.expandedNodes.has(unit.id) || !!q || autoExpand.has(unit.id);
+      const unitAttrs = { class: 'tree-unit' };
+      if (unitOpen) unitAttrs.open = '';
+      const unitEl = el('details', unitAttrs);
       const unitToggle = el('summary', { class: 'tree-toggle unit' },
         el('span', { class: 'chev', html: '◀' }),
         el('span', {}, unit.title),
         el('span', { class: 'count-badge' }, String(matchedLessons.length))
       );
       unitEl.append(unitToggle);
+      unitEl.addEventListener('toggle', () => {
+        if (unitEl.open) state.expandedNodes.add(unit.id);
+        else state.expandedNodes.delete(unit.id);
+      });
       const unitChildren = el('div', { class: 'tree-children' });
       for (const lesson of matchedLessons) {
         const leaf = el('button', {
@@ -1494,6 +2092,8 @@ function selectLesson(id) {
   state.currentLessonId = id;
   state.cardFilter = 'all';
   exitMegaView();
+  exitEraView();
+  exitFamilyView();
   renderSidebar();
   renderMain();
   // Close mobile sidebar
@@ -1532,6 +2132,14 @@ function renderMain() {
     renderMegaTimeline();
     return;
   }
+  if (state.eraView) {
+    renderEraCircle();
+    return;
+  }
+  if (state.familyView) {
+    renderFamilyTrees();
+    return;
+  }
   if (!state.currentLessonId) {
     main.append(renderWelcome());
     return;
@@ -1548,6 +2156,14 @@ function renderMain() {
   stats.append(el('span', { html: '⏳ <strong>' + (lesson.timeline?.length || 0) + '</strong> حدث في الخط الزمني' }));
   stats.append(el('span', { html: '🗂️ <strong>' + (lesson.cards?.length || 0) + '</strong> بطاقة دراسية' }));
   head.append(stats);
+  // Quiz button (only if lesson has enough content)
+  const quizable = (lesson.timeline?.length || 0) + (lesson.cards?.length || 0);
+  if (quizable >= 4) {
+    head.append(el('button', {
+      class: 'quiz-btn-large',
+      onclick: () => startQuiz(lesson),
+    }, '📝 اختبر نفسك (5 أسئلة)'));
+  }
   main.append(head);
 
   // Timeline
@@ -1597,7 +2213,7 @@ function renderWelcome() {
   );
 }
 
-/* ============ TIMELINE ============ */
+/* ============ TIMELINE (REDESIGNED - VERTICAL) ============ */
 function renderTimelineSection(timeline) {
   const wrap = el('section');
   const head = el('div', { class: 'section-head' });
@@ -1609,15 +2225,26 @@ function renderTimelineSection(timeline) {
   const sorted = [...timeline].map(ev => ({ ev, year: parseYear(ev.date) }))
     .sort((a, b) => (a.year ?? 0) - (b.year ?? 0));
 
-  const timelineWrap = el('div', { class: 'timeline-wrap' });
-  const scroll = el('div', { class: 'timeline-scroll' });
-  const track = el('div', { class: 'timeline-track' });
-  const line = el('div', { class: 'timeline-line' });
-  track.append(line);
-
   const found = findLesson(state.currentLessonId);
   const ctx = found ? { bookTitle: found.book.title, unitTitle: found.unit.title, lessonId: found.lesson.id, lessonTitle: found.lesson.title } : null;
-  sorted.forEach(({ ev, year }) => {
+
+  const container = el('div', { class: 'timeline-v' });
+
+  sorted.forEach(({ ev, year }, i) => {
+    // Show gap if previous event is much earlier (> 100 years and both years known)
+    if (i > 0) {
+      const prev = sorted[i - 1];
+      if (prev.year !== null && year !== null && (year - prev.year) >= 100) {
+        const gapYears = year - prev.year;
+        const label = gapYears >= 1000
+          ? Math.round(gapYears / 100) / 10 + ' ألف سنة'
+          : gapYears + ' سنة';
+        const gap = el('div', { class: 'tv-gap' });
+        gap.append(el('span', { class: 'tv-gap-label' }, '— فجوة زمنية: ' + label + ' —'));
+        container.append(gap);
+      }
+    }
+
     const color = eraColor(year);
     const typeIcon = TIMELINE_TYPES[ev.type]?.icon || TIMELINE_TYPES['أخرى'].icon;
     const itemPayload = {
@@ -1629,23 +2256,30 @@ function renderTimelineSection(timeline) {
       sourceLesson: ctx,
     };
     const node = el('div', {
-      class: 'tl-event',
+      class: 'tv-event',
       style: '--era-color: ' + color,
       onclick: () => openModal(itemPayload),
     });
     node.append(makeCompareBtn({ ...itemPayload, compareKey: 'event:' + (ctx?.lessonId || '') + ':' + (ev.event || '') }));
-    const card = el('div', { class: 'tl-card' });
-    card.append(el('div', { class: 'tl-date' }, typeIcon + ' ' + ev.date));
-    card.append(el('div', { class: 'tl-event-title' }, ev.event));
-    card.append(el('div', { class: 'tl-event-preview' }, ev.details || ''));
-    const dot = el('div', { class: 'tl-dot' });
-    node.append(card, dot);
-    track.append(node);
+
+    const card = el('div', { class: 'tv-event-card' });
+    const headRow = el('div', { class: 'tv-event-head' });
+    headRow.append(el('span', { class: 'tv-date' }, typeIcon + ' ' + ev.date));
+    if (ev.type) headRow.append(el('span', { class: 'tv-type-badge' }, ev.type));
+    card.append(headRow);
+    card.append(el('div', { class: 'tv-event-title' }, ev.event));
+    if (ev.details) card.append(el('div', { class: 'tv-event-preview' }, ev.details));
+    const actions = el('div', { class: 'tv-event-actions' });
+    actions.append(el('button', {
+      class: 'tv-read-more',
+      onclick: e => { e.stopPropagation(); openModal(itemPayload); },
+    }, 'اقرأ المزيد ←'));
+    card.append(actions);
+    node.append(card);
+    container.append(node);
   });
 
-  scroll.append(track);
-  timelineWrap.append(scroll);
-  wrap.append(timelineWrap);
+  wrap.append(container);
   return wrap;
 }
 
@@ -1709,11 +2343,11 @@ function renderCardsSection(cards) {
 }
 
 /* ============ MODAL ============ */
-function openModal({ icon, meta, title, body, color, sourceLesson, hideXrefs }) {
+function openModal({ icon, meta, title, body, bodyHtml, color, sourceLesson, hideXrefs }) {
   $('modalIcon').textContent = icon || '📌';
   $('modalMeta').textContent = meta || '';
   $('modalTitle').textContent = title || '';
-  let html = '<p style="white-space: pre-wrap;">' + escapeHtml(body) + '</p>';
+  let html = bodyHtml || ('<p style="white-space: pre-wrap;">' + escapeHtml(body) + '</p>');
   if (sourceLesson) {
     html += '<div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);font-size:12.5px;color:var(--ink-mute)">'
       + '📚 ' + escapeHtml(sourceLesson.bookTitle) + ' ← ' + escapeHtml(sourceLesson.unitTitle)
@@ -1955,7 +2589,11 @@ function renderSearchResults(query) {
 function openMegaView() {
   state.megaView = true;
   state.currentLessonId = null;
+  state.eraView = false;
+  state.familyView = false;
   $('megaBtn').classList.add('active');
+  $('eraBtn')?.classList.remove('active');
+  $('familyBtn')?.classList.remove('active');
   document.querySelectorAll('.tree-leaf').forEach(l => l.classList.remove('active'));
   renderMain();
   $('main').scrollTop = 0;
@@ -2181,6 +2819,850 @@ function openCompareModal() {
   $('compareModal').classList.add('open');
 }
 
+/* ============================================================
+   🌳 DYNASTY FAMILY TREES — DATA + RENDER
+   ============================================================ */
+const DYNASTY_TREES = {
+  hashemite: {
+    name: '👑 الأسرة الهاشمية الأردنية',
+    subtitle: 'من الشريف الحسين بن علي حتى الملك عبدالله الثاني',
+    color: '#c9a961',
+    nodes: [
+      { id: 'h_sharif', name: 'الشريف الحسين بن علي', subtitle: 'قائد الثورة العربية الكبرى', dates: '1853-1931', parent: null, role: 'مؤسس الهاشميين الحديث' },
+      { id: 'h_faisal',  name: 'الملك فيصل الأول', subtitle: 'ملك المملكة العربية السورية ثم العراق', dates: '1885-1933', parent: 'h_sharif' },
+      { id: 'h_abd1',    name: 'الأمير عبدالله الأول', subtitle: 'مؤسس إمارة شرق الأردن والملك الأول', dates: '1882-1951', parent: 'h_sharif', role: 'مؤسس الإمارة الأردنية 1921 — استشهد 1951' },
+      { id: 'h_ali',     name: 'الملك علي بن الحسين', subtitle: 'آخر ملك حجازي', dates: '1879-1935', parent: 'h_sharif' },
+      { id: 'h_talal',   name: 'الملك طلال بن عبدالله', subtitle: 'الملك الثاني — أصدر دستور 1952', dates: '1909-1972', parent: 'h_abd1' },
+      { id: 'h_naif',    name: 'الأمير نايف بن عبدالله', subtitle: 'الابن الثاني للملك عبدالله الأول', dates: '1914-1983', parent: 'h_abd1' },
+      { id: 'h_hus',     name: 'الملك الحسين بن طلال', subtitle: 'الملك الباني — حكم 47 سنة', dates: '1935-1999', parent: 'h_talal', role: 'قائد عملية فك الارتباط 1988' },
+      { id: 'h_hassan',  name: 'الأمير الحسن بن طلال', subtitle: 'ولي العهد سابقاً (1965-1999)', dates: '1947-', parent: 'h_talal' },
+      { id: 'h_abd2',    name: 'الملك عبدالله الثاني', subtitle: 'الملك الحالي للأردن', dates: '1962-', parent: 'h_hus', role: 'تولى الحكم 1999' },
+      { id: 'h_husA',    name: 'الأمير الحسين بن عبدالله الثاني', subtitle: 'ولي العهد الحالي', dates: '1994-', parent: 'h_abd2' },
+    ]
+  },
+  rashidun: {
+    name: '🕌 الخلفاء الراشدون',
+    subtitle: 'أول أربعة خلفاء في الإسلام (11-40هـ / 632-661م)',
+    color: '#2d6a4f',
+    nodes: [
+      { id: 'r1', name: 'أبو بكر الصديق', subtitle: 'الخليفة الأول', dates: '11-13هـ / 632-634م', parent: null },
+      { id: 'r2', name: 'عمر بن الخطاب', subtitle: 'الخليفة الثاني — في عهده وقعت معركة اليرموك', dates: '13-23هـ / 634-644م', parent: 'r1' },
+      { id: 'r3', name: 'عثمان بن عفان', subtitle: 'الخليفة الثالث', dates: '23-35هـ / 644-656م', parent: 'r2' },
+      { id: 'r4', name: 'علي بن أبي طالب', subtitle: 'الخليفة الرابع', dates: '35-40هـ / 656-661م', parent: 'r3' },
+    ]
+  },
+  umayyad: {
+    name: '⚔️ الأسرة الأموية',
+    subtitle: 'أول دولة إسلامية وراثية، عاصمتها دمشق (41-132هـ)',
+    color: '#1b5e3f',
+    nodes: [
+      { id: 'u_muawiya', name: 'معاوية بن أبي سفيان', subtitle: 'المؤسس — أول خليفة أموي', dates: '41-60هـ / 661-680م', parent: null },
+      { id: 'u_yazid1',  name: 'يزيد بن معاوية', subtitle: 'الخليفة الثاني', dates: '60-64هـ', parent: 'u_muawiya' },
+      { id: 'u_marwan',  name: 'مروان بن الحكم', subtitle: 'مؤسس الفرع المرواني', dates: '64-65هـ', parent: null },
+      { id: 'u_abdmalik', name: 'عبدالملك بن مروان', subtitle: 'موحّد الدولة — عرّب النقود والدواوين', dates: '65-86هـ', parent: 'u_marwan' },
+      { id: 'u_walid1',  name: 'الوليد بن عبدالملك', subtitle: 'في عهده اتسع الفتح — بنى المسجد الأموي', dates: '86-96هـ / 705-715م', parent: 'u_abdmalik' },
+      { id: 'u_sulayman', name: 'سليمان بن عبدالملك', subtitle: '', dates: '96-99هـ', parent: 'u_abdmalik' },
+      { id: 'u_umar2',   name: 'عمر بن عبدالعزيز', subtitle: 'الخليفة الزاهد — الراشدي الخامس', dates: '99-101هـ', parent: 'u_marwan' },
+      { id: 'u_hisham',  name: 'هشام بن عبدالملك', subtitle: 'أطول الأمويين حكماً', dates: '105-125هـ', parent: 'u_abdmalik' },
+      { id: 'u_marwan2', name: 'مروان بن محمد (الحمار)', subtitle: 'آخر خلفاء الأمويين — سقطت الدولة في عهده', dates: '127-132هـ', parent: 'u_marwan' },
+    ]
+  },
+  abbasid: {
+    name: '📚 الأسرة العباسية',
+    subtitle: 'الخلفاء العباسيون الأوائل — عاصمتها بغداد (132-656هـ)',
+    color: '#8b6b3f',
+    nodes: [
+      { id: 'a_saffah', name: 'أبو العباس السفّاح', subtitle: 'مؤسس الدولة العباسية', dates: '132-136هـ / 750-754م', parent: null },
+      { id: 'a_mansur', name: 'أبو جعفر المنصور', subtitle: 'باني بغداد', dates: '136-158هـ', parent: 'a_saffah' },
+      { id: 'a_mahdi',  name: 'المهدي', subtitle: '', dates: '158-169هـ', parent: 'a_mansur' },
+      { id: 'a_hadi',   name: 'الهادي', subtitle: '', dates: '169-170هـ', parent: 'a_mahdi' },
+      { id: 'a_rashid', name: 'هارون الرشيد', subtitle: 'أوج الدولة العباسية', dates: '170-193هـ', parent: 'a_mahdi' },
+      { id: 'a_amin',   name: 'الأمين', subtitle: '', dates: '193-198هـ', parent: 'a_rashid' },
+      { id: 'a_mamun',  name: 'المأمون', subtitle: 'مؤسس بيت الحكمة', dates: '198-218هـ', parent: 'a_rashid' },
+      { id: 'a_mutasim', name: 'المعتصم', subtitle: 'باني سامراء', dates: '218-227هـ', parent: 'a_rashid' },
+    ]
+  },
+  ayyubid: {
+    name: '🛡️ الأسرة الأيوبية',
+    subtitle: 'صلاح الدين وأبناؤه — حرّروا القدس من الفرنجة (569-648هـ)',
+    color: '#1565c0',
+    nodes: [
+      { id: 'y_najm', name: 'نجم الدين أيوب', subtitle: 'والد صلاح الدين', dates: '', parent: null },
+      { id: 'y_salah', name: 'صلاح الدين الأيوبي', subtitle: 'محرّر القدس — انتصار حطين 1187م', dates: '532-589هـ / 1138-1193م', parent: 'y_najm' },
+      { id: 'y_afdal', name: 'الأفضل علي', subtitle: 'ابن صلاح الدين — حاكم دمشق', dates: '566-622هـ', parent: 'y_salah' },
+      { id: 'y_aziz',  name: 'العزيز عثمان', subtitle: 'ابن صلاح الدين — حاكم مصر', dates: '567-595هـ', parent: 'y_salah' },
+      { id: 'y_zahir', name: 'الظاهر غازي', subtitle: 'ابن صلاح الدين — حاكم حلب', dates: '568-613هـ', parent: 'y_salah' },
+      { id: 'y_adil',  name: 'العادل الأيوبي', subtitle: 'أخو صلاح الدين — وحّد الدولة بعده', dates: '540-615هـ', parent: 'y_najm' },
+      { id: 'y_kamil', name: 'الكامل محمد', subtitle: 'ابن العادل', dates: '576-635هـ', parent: 'y_adil' },
+      { id: 'y_salih', name: 'الصالح أيوب', subtitle: 'آخر السلاطين الأيوبيين الأقوياء', dates: '603-647هـ', parent: 'y_kamil' },
+    ]
+  },
+  mamluk: {
+    name: '⚜️ سلاطين المماليك',
+    subtitle: 'أبرز سلاطين البحرية والبرجية الذين حكموا الشام والأردن',
+    color: '#5d4037',
+    nodes: [
+      { id: 'm_aybak',  name: 'عز الدين أيبك', subtitle: 'مؤسس الدولة المملوكية البحرية', dates: '648-655هـ', parent: null },
+      { id: 'm_qutuz',  name: 'سيف الدين قطز', subtitle: 'منتصر عين جالوت على المغول 1260م', dates: '657-658هـ', parent: 'm_aybak' },
+      { id: 'm_baybars', name: 'الظاهر بيبرس', subtitle: 'موحّد الجبهة الإسلامية ضد الفرنجة والمغول', dates: '658-676هـ', parent: 'm_qutuz' },
+      { id: 'm_qalawun', name: 'المنصور قلاوون', subtitle: 'مؤسس الفرع القلاووني', dates: '678-689هـ', parent: 'm_baybars' },
+      { id: 'm_khalil',  name: 'الأشرف خليل', subtitle: 'حرّر آخر المعاقل الصليبية (عكا 1291م)', dates: '689-693هـ', parent: 'm_qalawun' },
+      { id: 'm_nasir',   name: 'الناصر محمد', subtitle: 'أطول السلاطين حكماً', dates: '693-741هـ', parent: 'm_qalawun' },
+      { id: 'm_barquq',  name: 'الظاهر برقوق', subtitle: 'مؤسس الدولة المملوكية البرجية', dates: '784-801هـ', parent: null },
+      { id: 'm_qaitbay', name: 'الأشرف قايتباي', subtitle: 'من أعظم سلاطين البرجية', dates: '872-901هـ', parent: 'm_barquq' },
+    ]
+  },
+  ottoman: {
+    name: '🌙 السلاطين العثمانيون',
+    subtitle: 'أبرز السلاطين الذين حكموا الأردن (1516-1918م)',
+    color: '#8d6e63',
+    nodes: [
+      { id: 'o_selim1', name: 'السلطان سليم الأول', subtitle: 'فاتح بلاد الشام ومصر — ضم الأردن 1516م', dates: '1512-1520', parent: null },
+      { id: 'o_sulayman', name: 'سليمان القانوني', subtitle: 'أوج الدولة العثمانية', dates: '1520-1566', parent: 'o_selim1' },
+      { id: 'o_selim2', name: 'سليم الثاني', subtitle: '', dates: '1566-1574', parent: 'o_sulayman' },
+      { id: 'o_murad3', name: 'مراد الثالث', subtitle: '', dates: '1574-1595', parent: 'o_selim2' },
+      { id: 'o_mahmud2', name: 'محمود الثاني', subtitle: 'بدأ التنظيمات الإصلاحية', dates: '1808-1839', parent: null },
+      { id: 'o_abdmaj', name: 'عبدالمجيد الأول', subtitle: 'صاحب التنظيمات الخيرية 1839', dates: '1839-1861', parent: 'o_mahmud2' },
+      { id: 'o_abdaz', name: 'عبدالعزيز', subtitle: '', dates: '1861-1876', parent: 'o_mahmud2' },
+      { id: 'o_abdh2', name: 'عبدالحميد الثاني', subtitle: 'بنى سكة حديد الحجاز عبر الأردن', dates: '1876-1909', parent: 'o_abdmaj' },
+      { id: 'o_mehmed5', name: 'محمد الخامس', subtitle: 'في عهده اندلعت الثورة العربية الكبرى 1916', dates: '1909-1918', parent: 'o_abdmaj' },
+    ]
+  },
+};
+
+function openFamilyView() {
+  state.familyView = true;
+  state.currentLessonId = null;
+  state.megaView = false;
+  state.eraView = false;
+  $('familyBtn').classList.add('active');
+  $('megaBtn').classList.remove('active');
+  $('eraBtn').classList.remove('active');
+  document.querySelectorAll('.tree-leaf').forEach(l => l.classList.remove('active'));
+  renderMain();
+  $('main').scrollTop = 0;
+  if (window.innerWidth <= 900) $('sidebar').classList.remove('open');
+}
+function exitFamilyView() {
+  state.familyView = false;
+  $('familyBtn').classList.remove('active');
+}
+
+function renderFamilyTrees() {
+  const main = $('main');
+  main.innerHTML = '';
+  const tree = DYNASTY_TREES[state.familySelected];
+
+  const view = el('div', { class: 'family-view' });
+  const head = el('div', { class: 'family-head' });
+  head.append(el('div', { class: 'family-title' }, '🌳', 'الأسر الحاكمة في تاريخ الأردن'));
+  head.append(el('div', { class: 'family-subtitle' }, 'تصفّح شجرة كل أسرة بصرياً — اضغط على أي شخصية لتفاصيلها الكاملة.'));
+  view.append(head);
+
+  // Selector pills
+  const selector = el('div', { class: 'family-selector' });
+  Object.entries(DYNASTY_TREES).forEach(([key, t]) => {
+    selector.append(el('button', {
+      class: 'filter-pill' + (state.familySelected === key ? ' active' : ''),
+      onclick: () => { state.familySelected = key; renderMain(); $('main').scrollTop = 0; },
+    }, t.name));
+  });
+  view.append(selector);
+
+  // Tree description
+  view.append(el('div', { class: 'mega-subtitle', style: 'margin-bottom:14px' }, tree.subtitle));
+
+  // Build tree layout
+  const treeWrap = el('div', { class: 'family-tree-wrap' });
+  treeWrap.append(buildFamilyTreeSVG(tree));
+  view.append(treeWrap);
+
+  main.append(view);
+}
+
+/* Find all cards + timeline events across all books that mention a person */
+function findRelatedContentForPerson(name) {
+  const key = normalizeArabic(name);
+  if (!key || key.length < 3) return { cards: [], events: [] };
+  const cards = [];
+  const events = [];
+  // Variants to try: split on spaces and use last 2-3 components too
+  const nameParts = name.split(/\s+/);
+  const keyAlt = nameParts.length > 1 ? normalizeArabic(nameParts.slice(-2).join(' ')) : key;
+
+  for (const book of APP_DATA.books) {
+    const bookShort = book.title.split(' - ')[0].replace(/تاريخ الأردن/, '').trim() || book.title;
+    for (const unit of book.units) {
+      for (const lesson of unit.lessons) {
+        for (const card of (lesson.cards || [])) {
+          const cardKey = normalizeArabic(card.title || '');
+          if (!cardKey) continue;
+          if (cardKey === key || cardKey.includes(key) || key.includes(cardKey) ||
+              (keyAlt && (cardKey.includes(keyAlt) || keyAlt.includes(cardKey)))) {
+            cards.push({ card, book, unit, lesson, bookShort });
+          }
+        }
+        for (const ev of (lesson.timeline || [])) {
+          const evNorm = normalizeArabic((ev.event || '') + ' ' + (ev.details || ''));
+          if (evNorm.includes(key) || (keyAlt && evNorm.includes(keyAlt))) {
+            events.push({ event: ev, book, unit, lesson, bookShort });
+          }
+        }
+      }
+    }
+  }
+  // Deduplicate cards by (lessonId + cardTitle)
+  const seenC = new Set();
+  const dedC = cards.filter(c => {
+    const sig = c.lesson.id + '|' + c.card.title;
+    if (seenC.has(sig)) return false;
+    seenC.add(sig);
+    return true;
+  });
+  // Sort cards: exact match first
+  dedC.sort((a, b) => {
+    const aExact = normalizeArabic(a.card.title) === key ? 0 : 1;
+    const bExact = normalizeArabic(b.card.title) === key ? 0 : 1;
+    return aExact - bExact;
+  });
+  return { cards: dedC, events };
+}
+
+function openPersonModal(node, color) {
+  const { cards, events } = findRelatedContentForPerson(node.name);
+
+  let html = '';
+
+  // Header card with brief info from DYNASTY_TREES
+  const headerParts = [];
+  if (node.dates) headerParts.push('<div style="font-size:12px;color:var(--ink-mute);font-weight:700;margin-bottom:4px">📅 ' + escapeHtml(node.dates) + '</div>');
+  if (node.subtitle) headerParts.push('<div style="font-size:15.5px;color:var(--ink);margin-bottom:6px;font-weight:700">' + escapeHtml(node.subtitle) + '</div>');
+  if (node.role) headerParts.push('<div style="font-size:14px;color:var(--ink-soft);line-height:1.7">' + escapeHtml(node.role) + '</div>');
+  if (headerParts.length > 0) {
+    html += '<div style="background:var(--bg-soft);padding:14px 16px;border-radius:10px;border-inline-start:4px solid ' + color + ';margin-bottom:18px">' + headerParts.join('') + '</div>';
+  }
+
+  // Full cards from the books
+  if (cards.length > 0) {
+    html += '<div style="font-size:13px;font-weight:800;color:var(--ink-soft);margin-bottom:10px;display:flex;align-items:center;gap:6px">📚 معلومات كاملة من الكتب الأربعة (' + cards.length + ' بطاقة)</div>';
+    cards.forEach(({ card, book, unit, lesson, bookShort }) => {
+      const ctype = CARD_TYPES[card.type] || { icon: '📌', color: 'var(--accent)' };
+      html += '<div style="margin-bottom:14px;padding:14px 16px;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;border-inline-start:4px solid ' + ctype.color + '">';
+      html += '<div style="font-size:11px;color:var(--ink-mute);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">📖 ' + escapeHtml(bookShort) + ' ← ' + escapeHtml(unit.title) + ' ← ' + escapeHtml(lesson.title) + '</div>';
+      html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font-size:22px">' + ctype.icon + '</span>';
+      html += '<div style="flex:1"><div style="font-size:16px;font-weight:800;color:var(--ink);line-height:1.3">' + escapeHtml(card.title) + '</div>';
+      html += '<div style="font-size:11px;color:' + ctype.color + ';font-weight:700;margin-top:2px">' + escapeHtml(card.type) + '</div></div></div>';
+      if (card.details) html += '<div style="font-size:14px;line-height:1.85;color:var(--ink);white-space:pre-wrap;margin-bottom:10px">' + escapeHtml(card.details) + '</div>';
+      else if (card.summary) html += '<div style="font-size:14px;line-height:1.8;color:var(--ink);white-space:pre-wrap;margin-bottom:10px">' + escapeHtml(card.summary) + '</div>';
+      html += '<button class="xref-chip" data-jump-lesson="' + escapeHtml(lesson.id) + '" style="margin-top:4px">📖 افتح الدرس ←</button>';
+      html += '</div>';
+    });
+  }
+
+  // Related timeline events
+  if (events.length > 0) {
+    const maxShow = 8;
+    html += '<div style="font-size:13px;font-weight:800;color:var(--ink-soft);margin:18px 0 10px;display:flex;align-items:center;gap:6px">⏳ أحداث مرتبطة في الخط الزمني (' + events.length + ')</div>';
+    events.slice(0, maxShow).forEach(({ event, book, unit, lesson, bookShort }) => {
+      const evColor = eraColor(parseYear(event.date));
+      const evIcon = (TIMELINE_TYPES[event.type] || TIMELINE_TYPES['أخرى']).icon;
+      html += '<div style="margin-bottom:10px;padding:11px 14px;background:var(--bg-elev);border:1px solid var(--border);border-radius:8px;border-inline-start:3px solid ' + evColor + ';cursor:pointer" data-jump-lesson="' + escapeHtml(lesson.id) + '" class="xref-chip-event">';
+      html += '<div style="font-size:12px;font-weight:800;color:' + evColor + ';margin-bottom:3px">' + evIcon + ' ' + escapeHtml(event.date) + '</div>';
+      html += '<div style="font-size:14px;font-weight:700;color:var(--ink);line-height:1.4">' + escapeHtml(event.event) + '</div>';
+      html += '<div style="font-size:11px;color:var(--ink-mute);margin-top:4px">' + escapeHtml(bookShort) + ' ← ' + escapeHtml(lesson.title) + '</div>';
+      html += '</div>';
+    });
+    if (events.length > maxShow) {
+      html += '<div style="font-size:12px;color:var(--ink-mute);text-align:center;margin-top:8px;padding:8px;background:var(--bg-soft);border-radius:6px">+ ' + (events.length - maxShow) + ' حدث أخرى. استخدم البحث الشامل (Ctrl+K) لعرضها كلها.</div>';
+    }
+  }
+
+  if (cards.length === 0 && events.length === 0) {
+    html += '<div style="margin-top:14px;padding:18px;background:var(--bg-soft);border-radius:10px;color:var(--ink-mute);font-size:13.5px;text-align:center;line-height:1.7">ℹ️ لا توجد معلومات إضافية في الكتب الأربعة المنهجية عن هذه الشخصية تحديداً. المعلومات أعلاه تاريخية عامة.</div>';
+  }
+
+  openModal({
+    icon: '👤',
+    meta: 'شخصية تاريخية' + (cards.length > 0 ? ' • مذكورة في ' + new Set(cards.map(c => c.book.id)).size + ' كتاب' : ''),
+    title: node.name,
+    bodyHtml: html,
+    color,
+    hideXrefs: true,
+  });
+}
+
+function buildFamilyTreeSVG(tree) {
+  const nodes = tree.nodes;
+  const color = tree.color;
+  // Build depth (distance from root) and children mapping
+  const byId = Object.fromEntries(nodes.map(n => [n.id, { ...n, children: [] }]));
+  const roots = [];
+  nodes.forEach(n => {
+    if (n.parent && byId[n.parent]) byId[n.parent].children.push(byId[n.id]);
+    else roots.push(byId[n.id]);
+  });
+  // Assign depth and order via DFS
+  const positions = [];
+  let order = 0;
+  function place(n, depth) {
+    if (n.children.length === 0) {
+      positions.push({ node: n, depth, order: order++ });
+    } else {
+      const start = order;
+      n.children.forEach(c => place(c, depth + 1));
+      const end = order - 1;
+      positions.push({ node: n, depth, order: (start + end) / 2 });
+    }
+  }
+  roots.forEach(r => place(r, 0));
+
+  const nodeW = 220, nodeH = 80;
+  const gapX = 30, gapY = 50;
+  // Build map from id → position info
+  const posById = {};
+  positions.forEach(p => {
+    posById[p.node.id] = {
+      x: p.order * (nodeW + gapX) + gapX,
+      y: p.depth * (nodeH + gapY) + gapY,
+    };
+  });
+  // Compute SVG dimensions
+  const maxX = Math.max(...positions.map(p => p.order)) * (nodeW + gapX) + nodeW + gapX * 2;
+  const maxY = Math.max(...positions.map(p => p.depth)) * (nodeH + gapY) + nodeH + gapY * 2;
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${maxX} ${maxY}`);
+  svg.setAttribute('class', 'family-tree-svg');
+  svg.setAttribute('width', Math.max(600, maxX));
+  svg.setAttribute('height', maxY);
+
+  // Lines (parent → child)
+  nodes.forEach(n => {
+    if (!n.parent || !posById[n.parent]) return;
+    const p = posById[n.parent];
+    const c = posById[n.id];
+    const startX = p.x + nodeW / 2;
+    const startY = p.y + nodeH;
+    const endX = c.x + nodeW / 2;
+    const endY = c.y;
+    const midY = startY + (endY - startY) / 2;
+    const path = document.createElementNS(svgNS, 'path');
+    path.setAttribute('d', `M ${startX} ${startY} L ${startX} ${midY} L ${endX} ${midY} L ${endX} ${endY}`);
+    path.setAttribute('class', 'tree-line');
+    svg.appendChild(path);
+  });
+
+  // Nodes
+  nodes.forEach(n => {
+    const p = posById[n.id];
+    const g = document.createElementNS(svgNS, 'g');
+    g.setAttribute('class', 'tree-node-card');
+    g.setAttribute('transform', `translate(${p.x}, ${p.y})`);
+    g.style.setProperty('--node-color', color);
+    g.addEventListener('click', () => openPersonModal(n, color));
+
+    const bgBar = document.createElementNS(svgNS, 'rect');
+    bgBar.setAttribute('x', 0); bgBar.setAttribute('y', 0);
+    bgBar.setAttribute('width', 4); bgBar.setAttribute('height', nodeH);
+    bgBar.setAttribute('fill', color);
+    g.appendChild(bgBar);
+
+    const rect = document.createElementNS(svgNS, 'rect');
+    rect.setAttribute('width', nodeW); rect.setAttribute('height', nodeH);
+    g.appendChild(rect);
+
+    const name = document.createElementNS(svgNS, 'text');
+    name.setAttribute('class', 'node-name');
+    name.setAttribute('x', nodeW / 2); name.setAttribute('y', 26);
+    name.setAttribute('text-anchor', 'middle');
+    name.setAttribute('direction', 'rtl');
+    name.textContent = n.name;
+    g.appendChild(name);
+
+    if (n.subtitle) {
+      const sub = document.createElementNS(svgNS, 'text');
+      sub.setAttribute('class', 'node-dates');
+      sub.setAttribute('x', nodeW / 2); sub.setAttribute('y', 46);
+      sub.setAttribute('text-anchor', 'middle');
+      sub.setAttribute('direction', 'rtl');
+      sub.textContent = n.subtitle.length > 38 ? n.subtitle.slice(0, 36) + '…' : n.subtitle;
+      g.appendChild(sub);
+    }
+
+    if (n.dates) {
+      const d = document.createElementNS(svgNS, 'text');
+      d.setAttribute('class', 'node-badge');
+      d.setAttribute('x', nodeW / 2); d.setAttribute('y', 68);
+      d.setAttribute('text-anchor', 'middle');
+      d.textContent = n.dates;
+      g.appendChild(d);
+    }
+
+    svg.appendChild(g);
+  });
+
+  return svg;
+}
+
+/* ============================================================
+   ⭕ CIRCULAR ERA TIMELINE
+   ============================================================ */
+const ERA_DATA = [
+  { id: 'prehistoric', name: 'ما قبل التاريخ',         range: 'قبل 3500 ق.م',     test: y => y !== null && y < -3500,  color: '#6b5b3d' },
+  { id: 'ancient',     name: 'العصور القديمة',         range: '3500-0 ق.م',       test: y => y !== null && y >= -3500 && y < 0,  color: '#8b4513' },
+  { id: 'classical',   name: 'الكلاسيكي (الروماني)',    range: '0-395 م',          test: y => y !== null && y >= 0 && y < 395,  color: '#b8860b' },
+  { id: 'byzantine',   name: 'البيزنطي',               range: '395-636 م',        test: y => y !== null && y >= 395 && y < 636,  color: '#4a6d8c' },
+  { id: 'islamic_early', name: 'الإسلامي المبكر',       range: '636-1250 م',       test: y => y !== null && y >= 636 && y < 1250,  color: '#2d6a4f' },
+  { id: 'islamic_mid', name: 'الأيوبي والمملوكي',       range: '1250-1517 م',      test: y => y !== null && y >= 1250 && y < 1517,  color: '#1b5e3f' },
+  { id: 'ottoman',     name: 'العثماني',               range: '1517-1918 م',      test: y => y !== null && y >= 1517 && y < 1918,  color: '#5d4037' },
+  { id: 'emirate',     name: 'الإمارة وما قبل الاستقلال', range: '1918-1946 م',     test: y => y !== null && y >= 1918 && y < 1946,  color: '#1565c0' },
+  { id: 'kingdom_mid', name: 'المملكة الحديثة',         range: '1946-1999 م',      test: y => y !== null && y >= 1946 && y < 1999,  color: '#1976d2' },
+  { id: 'contemporary', name: 'المعاصر',               range: '1999 — اليوم',     test: y => y !== null && y >= 1999,  color: '#d84315' },
+];
+
+function openEraView() {
+  state.eraView = true;
+  state.currentLessonId = null;
+  state.megaView = false;
+  state.familyView = false;
+  $('eraBtn').classList.add('active');
+  $('megaBtn').classList.remove('active');
+  $('familyBtn').classList.remove('active');
+  document.querySelectorAll('.tree-leaf').forEach(l => l.classList.remove('active'));
+  renderMain();
+  $('main').scrollTop = 0;
+  if (window.innerWidth <= 900) $('sidebar').classList.remove('open');
+}
+function exitEraView() {
+  state.eraView = false;
+  $('eraBtn').classList.remove('active');
+}
+
+function renderEraCircle() {
+  const main = $('main');
+  main.innerHTML = '';
+  // Count events per era
+  const allEvents = [];
+  for (const book of APP_DATA.books)
+    for (const unit of book.units)
+      for (const lesson of unit.lessons)
+        (lesson.timeline || []).forEach(ev => allEvents.push({ ...ev, year: parseYear(ev.date) }));
+  const countsByEra = {};
+  ERA_DATA.forEach(e => { countsByEra[e.id] = allEvents.filter(ev => e.test(ev.year)).length; });
+  const totalCounted = Object.values(countsByEra).reduce((a, b) => a + b, 0);
+
+  const view = el('div', { class: 'era-view' });
+  const head = el('div', { class: 'era-head' });
+  head.append(el('div', { class: 'era-title' }, '⭕', 'حقب التاريخ الأردني'));
+  head.append(el('div', { class: 'era-subtitle' }, 'انظر للصورة الكاملة في لمحة. اضغط على أي حقبة لاستعراض أحداثها.'));
+  view.append(head);
+
+  // SVG circle
+  const wrap = el('div', { class: 'era-circle-wrap' });
+  wrap.append(buildEraCircleSVG(countsByEra, totalCounted));
+  view.append(wrap);
+
+  // Legend (clickable)
+  const legend = el('div', { class: 'era-legend' });
+  ERA_DATA.forEach(era => {
+    const count = countsByEra[era.id];
+    const item = el('div', {
+      class: 'era-legend-item',
+      onclick: () => jumpToEra(era),
+    });
+    item.append(el('div', { class: 'era-legend-color', style: 'background:' + era.color }));
+    item.append(el('div', { class: 'era-legend-text' }, era.name + ' (' + era.range + ')'));
+    item.append(el('div', { class: 'era-legend-count' }, count + ' حدث'));
+    legend.append(item);
+  });
+  view.append(legend);
+
+  main.append(view);
+}
+
+function buildEraCircleSVG(counts, total) {
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('class', 'era-circle-svg');
+  const size = 600, cx = size / 2, cy = size / 2;
+  const outerR = 260, innerR = 90;
+  svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+
+  // Use equal-angle slices for clarity
+  const slices = ERA_DATA.length;
+  const anglePerSlice = (2 * Math.PI) / slices;
+  // Start at top (-90deg), going clockwise (but RTL feeling → we'll just go in chronological order clockwise)
+  let startAngle = -Math.PI / 2;
+
+  ERA_DATA.forEach((era, idx) => {
+    const endAngle = startAngle + anglePerSlice;
+    const midAngle = startAngle + anglePerSlice / 2;
+    // Slice path (donut segment)
+    const x1 = cx + outerR * Math.cos(startAngle);
+    const y1 = cy + outerR * Math.sin(startAngle);
+    const x2 = cx + outerR * Math.cos(endAngle);
+    const y2 = cy + outerR * Math.sin(endAngle);
+    const x3 = cx + innerR * Math.cos(endAngle);
+    const y3 = cy + innerR * Math.sin(endAngle);
+    const x4 = cx + innerR * Math.cos(startAngle);
+    const y4 = cy + innerR * Math.sin(startAngle);
+    const largeArc = anglePerSlice > Math.PI ? 1 : 0;
+    const d = `M ${x1} ${y1} A ${outerR} ${outerR} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${innerR} ${innerR} 0 ${largeArc} 0 ${x4} ${y4} Z`;
+
+    const g = document.createElementNS(svgNS, 'g');
+    g.setAttribute('class', 'era-slice');
+    g.addEventListener('click', () => jumpToEra(era));
+
+    const path = document.createElementNS(svgNS, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', era.color);
+    g.appendChild(path);
+
+    // Labels
+    const labelR = (outerR + innerR) / 2;
+    const lx = cx + labelR * Math.cos(midAngle);
+    const ly = cy + labelR * Math.sin(midAngle);
+
+    const t1 = document.createElementNS(svgNS, 'text');
+    t1.setAttribute('class', 'era-name');
+    t1.setAttribute('x', lx); t1.setAttribute('y', ly - 8);
+    t1.setAttribute('text-anchor', 'middle');
+    t1.setAttribute('direction', 'rtl');
+    t1.textContent = era.name.length > 14 ? era.name.slice(0, 12) + '…' : era.name;
+    g.appendChild(t1);
+
+    const t2 = document.createElementNS(svgNS, 'text');
+    t2.setAttribute('class', 'era-dates');
+    t2.setAttribute('x', lx); t2.setAttribute('y', ly + 6);
+    t2.setAttribute('text-anchor', 'middle');
+    t2.setAttribute('direction', 'rtl');
+    t2.textContent = era.range;
+    g.appendChild(t2);
+
+    const c = counts[era.id] || 0;
+    const t3 = document.createElementNS(svgNS, 'text');
+    t3.setAttribute('class', 'era-count');
+    t3.setAttribute('x', lx); t3.setAttribute('y', ly + 22);
+    t3.setAttribute('text-anchor', 'middle');
+    t3.textContent = c + ' حدث';
+    g.appendChild(t3);
+
+    svg.appendChild(g);
+    startAngle = endAngle;
+  });
+
+  // Center circle with total
+  const centerC = document.createElementNS(svgNS, 'circle');
+  centerC.setAttribute('class', 'era-center');
+  centerC.setAttribute('cx', cx); centerC.setAttribute('cy', cy); centerC.setAttribute('r', innerR - 4);
+  svg.appendChild(centerC);
+
+  const centerText1 = document.createElementNS(svgNS, 'text');
+  centerText1.setAttribute('class', 'era-center-text');
+  centerText1.setAttribute('x', cx); centerText1.setAttribute('y', cy - 6);
+  centerText1.textContent = total + ' حدث';
+  svg.appendChild(centerText1);
+
+  const centerText2 = document.createElementNS(svgNS, 'text');
+  centerText2.setAttribute('class', 'era-center-sub');
+  centerText2.setAttribute('x', cx); centerText2.setAttribute('y', cy + 16);
+  centerText2.textContent = ERA_DATA.length + ' حقبة';
+  svg.appendChild(centerText2);
+
+  return svg;
+}
+
+function jumpToEra(era) {
+  // Open mega timeline view (no filter pre-set since mega uses a different type/book filter)
+  // Instead, we'll filter by year range — simulate by setting megaFilters and scrolling to that era
+  state.eraView = false;
+  state.familyView = false;
+  $('eraBtn').classList.remove('active');
+  $('familyBtn').classList.remove('active');
+  openMegaView();
+  // Scroll to era header after render
+  setTimeout(() => {
+    const headers = document.querySelectorAll('.mega-era-header');
+    for (const h of headers) {
+      if (h.textContent.includes(era.name.split(' ')[0]) || h.textContent.includes(era.name)) {
+        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        break;
+      }
+    }
+  }, 200);
+}
+
+/* ============================================================
+   📝 QUICK SELF-QUIZ
+   ============================================================ */
+function startQuiz(lesson) {
+  const questions = generateQuiz(lesson);
+  if (questions.length === 0) {
+    alert('لا يمكن توليد اختبار من هذا الدرس — محتواه قليل.');
+    return;
+  }
+  state.quiz = {
+    lesson,
+    questions,
+    currentIdx: 0,
+    score: 0,
+    answered: false,
+    selectedIdx: -1,
+  };
+  $('quizModal').classList.add('open');
+  renderQuizQuestion();
+}
+
+function generateQuiz(lesson) {
+  const questions = [];
+  const timeline = lesson.timeline || [];
+  const cards = lesson.cards || [];
+  // Filter to items with enough content
+  const tWithDate = timeline.filter(t => t.date && t.event);
+  const cWithDetails = cards.filter(c => c.title && (c.details || c.summary));
+
+  // Build different question types
+  const candidates = [];
+
+  // Type 1: "When did X happen?" — needs at least 4 timeline items
+  if (tWithDate.length >= 4) {
+    tWithDate.forEach(t => {
+      const distractors = pickDistractors(t.date, tWithDate.map(x => x.date), 3);
+      if (distractors.length === 3) {
+        candidates.push({
+          type: 'date',
+          hint: 'في أي تاريخ حدث هذا؟',
+          question: t.event,
+          correctAnswer: t.date,
+          options: shuffle([t.date, ...distractors]),
+          explanation: t.details || '',
+        });
+      }
+    });
+  }
+
+  // Type 2: "Who/What is X?" — match card title to its summary
+  if (cWithDetails.length >= 4) {
+    cWithDetails.forEach(c => {
+      const correctSnippet = (c.summary || c.details).slice(0, 140);
+      const distractors = pickDistractors(correctSnippet, cWithDetails.map(x => (x.summary || x.details).slice(0, 140)), 3);
+      if (distractors.length === 3) {
+        candidates.push({
+          type: 'who',
+          hint: c.type === 'شخصية' ? 'من هو/هي؟' : (c.type === 'معاهدة' ? 'ما هذه المعاهدة؟' : 'عرّف:'),
+          question: c.title,
+          correctAnswer: correctSnippet,
+          options: shuffle([correctSnippet, ...distractors]),
+          explanation: c.details || '',
+        });
+      }
+    });
+  }
+
+  // Type 3: "What event happened in date X?" — reverse of type 1
+  if (tWithDate.length >= 4) {
+    tWithDate.forEach(t => {
+      const distractors = pickDistractors(t.event, tWithDate.map(x => x.event), 3);
+      if (distractors.length === 3) {
+        candidates.push({
+          type: 'date_to_event',
+          hint: 'ماذا حدث في هذا التاريخ؟',
+          question: t.date,
+          correctAnswer: t.event,
+          options: shuffle([t.event, ...distractors]),
+          explanation: t.details || '',
+        });
+      }
+    });
+  }
+
+  // Type 4: "Identify the type" — what type is X? (شخصية، معاهدة، إلخ)
+  if (cards.length >= 5) {
+    const types = [...new Set(cards.map(c => c.type))];
+    if (types.length >= 3) {
+      cards.forEach(c => {
+        const distractors = types.filter(t => t !== c.type).slice(0, 3);
+        if (distractors.length === 3) {
+          candidates.push({
+            type: 'classify',
+            hint: 'إلى أي فئة ينتمي؟',
+            question: c.title,
+            correctAnswer: c.type,
+            options: shuffle([c.type, ...distractors]),
+            explanation: c.summary || c.details || '',
+          });
+        }
+      });
+    }
+  }
+
+  // Pick 5 random unique questions, with type variety
+  shuffle(candidates);
+  const picked = [];
+  const usedQuestionTexts = new Set();
+  for (const q of candidates) {
+    if (picked.length >= 5) break;
+    if (usedQuestionTexts.has(q.question)) continue;
+    usedQuestionTexts.add(q.question);
+    picked.push(q);
+  }
+  return picked;
+}
+
+function pickDistractors(correct, pool, n) {
+  const others = pool.filter(x => x !== correct);
+  shuffle(others);
+  // Deduplicate
+  const out = [];
+  const seen = new Set([correct]);
+  for (const o of others) {
+    if (out.length >= n) break;
+    if (seen.has(o)) continue;
+    seen.add(o);
+    out.push(o);
+  }
+  return out;
+}
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function renderQuizQuestion() {
+  const q = state.quiz.questions[state.quiz.currentIdx];
+  const total = state.quiz.questions.length;
+  $('quizProgressLabel').textContent = `السؤال ${state.quiz.currentIdx + 1} من ${total}`;
+  $('quizScoreLabel').textContent = `النتيجة: ${state.quiz.score}/${total}`;
+  $('quizProgressFill').style.width = ((state.quiz.currentIdx + 1) / total * 100) + '%';
+
+  const body = $('quizBody');
+  body.innerHTML = '';
+  body.append(el('div', { class: 'quiz-question-hint' }, '💡 ' + q.hint));
+  body.append(el('div', { class: 'quiz-question' }, q.question));
+
+  const opts = el('div', { class: 'quiz-options' });
+  const markers = ['أ', 'ب', 'ج', 'د'];
+  q.options.forEach((opt, idx) => {
+    const btn = el('button', {
+      class: 'quiz-option',
+      onclick: () => submitAnswer(idx),
+    });
+    btn.append(el('div', { class: 'quiz-option-marker' }, markers[idx]));
+    btn.append(el('div', { style: 'flex:1' }, opt));
+    opts.append(btn);
+  });
+  body.append(opts);
+
+  // Feedback area (initially hidden)
+  body.append(el('div', { class: 'quiz-feedback', id: 'quizFeedback' }));
+
+  $('quizFoot').style.display = 'none';
+  state.quiz.answered = false;
+  state.quiz.selectedIdx = -1;
+}
+
+function submitAnswer(idx) {
+  if (state.quiz.answered) return;
+  state.quiz.answered = true;
+  state.quiz.selectedIdx = idx;
+  const q = state.quiz.questions[state.quiz.currentIdx];
+  const correctIdx = q.options.indexOf(q.correctAnswer);
+  const isCorrect = idx === correctIdx;
+  if (isCorrect) state.quiz.score++;
+
+  // Mark options visually
+  const optionBtns = document.querySelectorAll('.quiz-option');
+  optionBtns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === correctIdx) btn.classList.add('correct');
+    else if (i === idx) btn.classList.add('wrong');
+  });
+
+  // Show feedback
+  const fb = $('quizFeedback');
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'correct' : 'wrong');
+  let fbHtml = '<div class="quiz-feedback-title">' + (isCorrect ? '✅ إجابة صحيحة!' : '❌ إجابة خاطئة') + '</div>';
+  if (!isCorrect) fbHtml += '<div>الإجابة الصحيحة: <strong>' + escapeHtml(q.correctAnswer) + '</strong></div>';
+  if (q.explanation) fbHtml += '<div style="margin-top:6px;font-size:12.5px;opacity:.85">' + escapeHtml(q.explanation.slice(0, 280)) + (q.explanation.length > 280 ? '…' : '') + '</div>';
+  fb.innerHTML = fbHtml;
+
+  // Update score label
+  $('quizScoreLabel').textContent = `النتيجة: ${state.quiz.score}/${state.quiz.questions.length}`;
+
+  // Show next button
+  $('quizFoot').style.display = 'flex';
+  $('quizNext').disabled = false;
+  $('quizNext').textContent = state.quiz.currentIdx + 1 >= state.quiz.questions.length ? 'النتيجة النهائية ←' : 'التالي ←';
+}
+
+function nextQuestion() {
+  if (state.quiz.currentIdx + 1 >= state.quiz.questions.length) {
+    showQuizResult();
+  } else {
+    state.quiz.currentIdx++;
+    renderQuizQuestion();
+  }
+}
+
+function skipQuestion() {
+  if (state.quiz.answered) return;
+  state.quiz.answered = true;
+  // Reveal correct without scoring
+  const q = state.quiz.questions[state.quiz.currentIdx];
+  const correctIdx = q.options.indexOf(q.correctAnswer);
+  document.querySelectorAll('.quiz-option').forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === correctIdx) btn.classList.add('correct');
+  });
+  const fb = $('quizFeedback');
+  fb.className = 'quiz-feedback show wrong';
+  fb.innerHTML = '<div class="quiz-feedback-title">⏭️ تم التخطّي</div><div>الإجابة الصحيحة: <strong>' + escapeHtml(q.correctAnswer) + '</strong></div>';
+  $('quizFoot').style.display = 'flex';
+  $('quizNext').disabled = false;
+  $('quizNext').textContent = state.quiz.currentIdx + 1 >= state.quiz.questions.length ? 'النتيجة النهائية ←' : 'التالي ←';
+}
+
+function showQuizResult() {
+  const total = state.quiz.questions.length;
+  const score = state.quiz.score;
+  const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+  let emoji, message;
+  if (pct === 100) { emoji = '🏆'; message = 'ممتاز! حفظ كامل لهذا الدرس. أنت جاهز للامتحان فيه!'; }
+  else if (pct >= 80) { emoji = '🌟'; message = 'رائع! تحكّم قوي بالمحتوى. راجع الأسئلة التي أخطأت فيها فقط.'; }
+  else if (pct >= 60) { emoji = '👍'; message = 'جيد! أساسك متين، لكن تحتاج مراجعة بعض التفاصيل.'; }
+  else if (pct >= 40) { emoji = '📖'; message = 'محاولة جيدة. اقرأ الدرس مرة أخرى ثم أعد الاختبار.'; }
+  else { emoji = '💪'; message = 'لا بأس! العودة للدراسة وإعادة المحاولة ستحسّن النتيجة بسرعة.'; }
+
+  const body = $('quizBody');
+  body.innerHTML = '';
+  const result = el('div', { class: 'quiz-result' });
+  result.append(el('div', { class: 'quiz-result-emoji' }, emoji));
+  result.append(el('div', { class: 'quiz-result-score' }, score + ' / ' + total));
+  result.append(el('div', { class: 'quiz-result-label' }, '(' + pct + '%)'));
+  result.append(el('div', { class: 'quiz-result-message' }, message));
+  const actions = el('div', { class: 'quiz-actions' });
+  actions.append(el('button', {
+    class: 'quiz-retry',
+    onclick: () => startQuiz(state.quiz.lesson),
+  }, '🔁 أعد الاختبار'));
+  actions.append(el('button', {
+    class: 'quiz-close-result',
+    onclick: closeQuiz,
+  }, 'إغلاق'));
+  result.append(actions);
+  body.append(result);
+  $('quizFoot').style.display = 'none';
+}
+
+function closeQuiz() {
+  $('quizModal').classList.remove('open');
+  state.quiz = null;
+}
+
 /* ============ THEME ============ */
 function applyTheme() {
   document.documentElement.setAttribute('data-theme', state.theme);
@@ -2211,6 +3693,8 @@ function init() {
     state.view = btn.dataset.view;
     document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b === btn));
     if (state.megaView) exitMegaView();
+    if (state.eraView) exitEraView();
+    if (state.familyView) exitFamilyView();
     renderMain();
   });
 
@@ -2223,7 +3707,7 @@ function init() {
 
   // Print
   $('printBtn').addEventListener('click', () => {
-    if (state.megaView || !state.currentLessonId) {
+    if (state.megaView || state.eraView || state.familyView || !state.currentLessonId) {
       alert('اختر درساً أولاً لطباعة ورقة مراجعته.');
       return;
     }
@@ -2239,6 +3723,32 @@ function init() {
       openMegaView();
     }
   });
+
+  // Era circle button
+  $('eraBtn').addEventListener('click', () => {
+    if (state.eraView) {
+      exitEraView();
+      renderMain();
+    } else {
+      openEraView();
+    }
+  });
+
+  // Family trees button
+  $('familyBtn').addEventListener('click', () => {
+    if (state.familyView) {
+      exitFamilyView();
+      renderMain();
+    } else {
+      openFamilyView();
+    }
+  });
+
+  // Quiz modal
+  $('quizModalClose').addEventListener('click', closeQuiz);
+  $('quizModal').addEventListener('click', e => { if (e.target === $('quizModal')) closeQuiz(); });
+  $('quizNext').addEventListener('click', nextQuestion);
+  $('quizSkip').addEventListener('click', skipQuestion);
 
   // Global search trigger
   $('searchTrigger').addEventListener('click', openSearch);
@@ -2262,6 +3772,7 @@ function init() {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       if ($('searchOverlay').classList.contains('open')) { closeSearch(); return; }
+      if ($('quizModal').classList.contains('open')) { closeQuiz(); return; }
       if ($('compareModal').classList.contains('open')) { $('compareModal').classList.remove('open'); return; }
       closeModal();
     }
